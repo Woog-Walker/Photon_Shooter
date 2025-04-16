@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using DG.Tweening;
@@ -84,6 +82,9 @@ public class Player_Controller : MonoBehaviour
         Movement();
         Rotation();
         Camera_Follower();
+
+        Debug.Log($"hoirontal_move | {hoirontal_move}");
+        Debug.Log($"vertical_move | {vertical_move}");
     }
 
     void Camera_Follower()

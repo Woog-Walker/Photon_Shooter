@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class Zombie_Controller : MonoBehaviour
 {
+
+
+
     [SerializeField] float health;
     [SerializeField] Transform player;
     [SerializeField] float distance_to_attack;
