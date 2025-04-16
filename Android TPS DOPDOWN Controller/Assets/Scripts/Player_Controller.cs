@@ -82,15 +82,10 @@ public class Player_Controller : MonoBehaviour
         Movement();
         Rotation();
         Camera_Follower();
-
-        Debug.Log($"hoirontal_move | {hoirontal_move}");
-        Debug.Log($"vertical_move | {vertical_move}");
     }
 
-    void Camera_Follower()
-    {
+    void Camera_Follower() =>
         camera_holder.transform.position = new Vector3(transform.position.x + offset_x, transform.position.y + offset_y, transform.position.z + offset_z);
-    }
 
     void Movement()
     {
@@ -105,7 +100,6 @@ public class Player_Controller : MonoBehaviour
             {
                 Forward();
                 player_gfx.transform.rotation = Quaternion.LookRotation(move_direction);
-
             }
 
             controller.Move(move_direction * move_speed * Time.deltaTime);
@@ -139,7 +133,7 @@ public class Player_Controller : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        pv.RPC(nameof(RPC_Take_Damage), pv.Owner, damage);        
+        pv.RPC(nameof(RPC_Take_Damage), pv.Owner, damage);
     }
 
     [PunRPC]
@@ -235,9 +229,7 @@ public class Player_Controller : MonoBehaviour
 
     void Forward()
     {
-        if (hoirontal_move == 0 || vertical_move == 0) return;
-
-        animator_controller.Set_Aimation_Float(0, 1);
+        animator_controller.Set_Aimation_Float(0, Count_Magnitude_Of_Movement());
         FindObjectOfType<Canvas_Manager>().Move_Forward();
     }
 
@@ -245,7 +237,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (hoirontal_move == 0 || vertical_move == 0) return;
 
-        animator_controller.Set_Aimation_Float(1, 0);
+        animator_controller.Set_Aimation_Float(Count_Magnitude_Of_Movement(), 0);
         FindObjectOfType<Canvas_Manager>().Move_Right();
     }
 
@@ -253,7 +245,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (hoirontal_move == 0 || vertical_move == 0) return;
 
-        animator_controller.Set_Aimation_Float(0, -1);
+        animator_controller.Set_Aimation_Float(0, -Count_Magnitude_Of_Movement());
         FindObjectOfType<Canvas_Manager>().Move_Back();
     }
 
@@ -261,9 +253,11 @@ public class Player_Controller : MonoBehaviour
     {
         if (hoirontal_move == 0 || vertical_move == 0) return;
 
-        animator_controller.Set_Aimation_Float(-1, 0);
+        animator_controller.Set_Aimation_Float(-Count_Magnitude_Of_Movement(), 0);
         FindObjectOfType<Canvas_Manager>().Move_Left();
     }
-    #endregion
 
+    float Count_Magnitude_Of_Movement() => controller.velocity.magnitude;
+
+    #endregion
 }
